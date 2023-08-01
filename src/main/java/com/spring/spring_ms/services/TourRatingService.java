@@ -46,6 +46,18 @@ public class TourRatingService {
         return Map.of("average",tourRatingRepository.findByPkTourId(tourId).stream().mapToInt(TourRating::getScore).average().orElseThrow(()->new NoSuchElementException("this tour has no ratings yet, id is: " + tourId)));
     }
 
+    public Rating updateWithPut(int tourId, Rating rating){
+        TourRating tourRating = verifyTourRating(tourId,rating.getCustomerId());
+        tourRating.setScore(rating.getScore());
+        tourRating.setComment(rating.getComment());
+        return new Rating(tourRatingRepository.save(tourRating));
+    }
+
+    public void deleteRating(int tourId, int customerId){
+        TourRating rating = verifyTourRating(tourId,customerId);
+        tourRatingRepository.delete(rating);
+    }
+
         /**
      * Verify and return the Tour given a tourId.
      *
@@ -56,6 +68,11 @@ public class TourRatingService {
     private Tour verifyTour(int tourId) throws NoSuchElementException {
         return tourRepository.findById(tourId).orElseThrow(() ->
                 new NoSuchElementException("Tour does not exist " + tourId));
+    }
+
+
+    private TourRating verifyTourRating(int tourId, int customerId){
+        return tourRatingRepository.findByPkTourIdAndPkCustomerId(tourId,customerId).orElseThrow(()->new NoSuchElementException("Tour rating pair for request("+tourId+" for customer "+customerId));
     }
 
 

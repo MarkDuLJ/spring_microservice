@@ -65,4 +65,14 @@ public class TourRatingController {
         return  tourRatingService.getRatingAverage(tourId);
     }
 
+    @PutMapping
+    public Rating updateRating(@PathVariable("tourId") int tourId,@RequestBody Rating rating){
+        return tourRatingService.updateWithPut(tourId,rating);
+    }
+
+    @DeleteMapping(path = "/{customerId}")
+    public void deleteTourRating(@PathVariable("tourId") int tourId,@PathVariable("customerId") int customerId){
+        tourRatingService.deleteRating(tourId,customerId);
+    }
+
 }
