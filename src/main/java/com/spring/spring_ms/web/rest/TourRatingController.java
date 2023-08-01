@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -45,22 +47,22 @@ public class TourRatingController {
 //                ratingDto.getScore(), ratingDto.getComment()));
 //    }
 //
-//    /**
-//     * Verify and return the Tour given a tourId.
-//     *
-//     * @param tourId tour identifier
-//     * @return the found Tour
-//     * @throws NoSuchElementException if no Tour found.
-//     */
-//    private Tour verifyTour(int tourId) throws NoSuchElementException {
-//        return tourRepository.findById(tourId).orElseThrow(() ->
-//                new NoSuchElementException("Tour does not exist " + tourId));
-//    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TourRating createRating(@PathVariable("tourId") int tourId, @RequestBody Rating rating ){
        return tourRatingService.createTourRating(tourId, rating);
+    }
+
+    @GetMapping
+    public List<Rating> getAllRatingForTour(@PathVariable("tourId") int tourId){
+       return tourRatingService.getAllRatingForTour(tourId);
+    }
+
+    @GetMapping(path ="/average" )
+    public Map<String,Double> getRatingAverageForTour(@PathVariable("tourId") int tourId){
+        return  tourRatingService.getRatingAverage(tourId);
     }
 
 }
