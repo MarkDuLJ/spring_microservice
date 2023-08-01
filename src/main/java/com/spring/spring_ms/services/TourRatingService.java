@@ -20,9 +20,9 @@ public class TourRatingService {
     private TourRatingRepository tourRatingRepository;
 
     @Autowired
-    public TourRatingService(TourRepository tourRepository, TourRatingRepository tourRationgRepository) {
+    public TourRatingService(TourRepository tourRepository, TourRatingRepository tourRatingRepository) {
         this.tourRepository = tourRepository;
-        this.tourRatingRepository = tourRationgRepository;
+        this.tourRatingRepository = tourRatingRepository;
     }
 
 
